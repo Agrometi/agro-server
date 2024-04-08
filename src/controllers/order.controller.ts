@@ -151,7 +151,10 @@ export const getOrder = Async(async (req, res, next) => {
 
   const order = await Order.findById(orderId)
     .select("-__v -updatedAt")
-    .populate({ path: "products.product", select: "_id title price assets" })
+    .populate({
+      path: "products.product",
+      select: "_id title price assets description",
+    })
     .populate({ path: "products.combo", select: "_id title price assets" });
 
   if (!order) return next(new AppError(404, "Order does not exists"));

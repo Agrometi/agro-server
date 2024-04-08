@@ -18,6 +18,7 @@ export const createProduct = Async(async (req, res, next) => {
     description: body.description,
     price: +body.price,
     category: body.category,
+    sizeUnit: body.sizeUnit,
     sizes: body.sizes,
   });
 
@@ -37,6 +38,7 @@ export const updateProduct = Async(async (req, res, next) => {
         description: body.description,
         price: +body.price,
         category: body.category,
+        sizeUnit: body.sizeUnit,
         sizes: body.sizes,
       },
     },

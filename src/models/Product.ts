@@ -9,7 +9,8 @@ const ProductSchema = new Schema<ProductT, ProductModelT, ProductMethodsT>(
   {
     title: String,
     description: String,
-    sizes: [String],
+    sizeUnit: String,
+    sizes: [Number],
     price: Number,
     assets: Array<String>,
     category: {
