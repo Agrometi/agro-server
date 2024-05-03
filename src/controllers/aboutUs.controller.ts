@@ -7,7 +7,12 @@ export const editAboutUs = Async(async (req, res, next) => {
   let data: any = await AboutUs.find();
 
   if (!data[0]) data = await new AboutUs({ body }).save();
-  else data = await AboutUs.findByIdAndUpdate(data[0]._id, { new: true });
+  else
+    data = await AboutUs.findByIdAndUpdate(
+      data[0]._id,
+      { $set: { body } },
+      { new: true }
+    );
 
   res.status(201).json({ body: data.body });
 });
