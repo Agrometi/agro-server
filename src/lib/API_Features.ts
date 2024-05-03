@@ -74,6 +74,21 @@ class API_Features<
   getQuery() {
     return this.dbQuery;
   }
+
+  articlesFilter() {
+    const queryObject = this.getQueryObject(["search", "category"], []);
+
+    const query: { [key: string]: any } = {};
+
+    if (queryObject.search)
+      query.title = { $regex: queryObject.search, $options: "i" };
+    if (queryObject.category) query.category = queryObject.category;
+
+    this.dbQuery = this.dbQuery.find(query) as any;
+    this.dbQueryClone = this.dbQueryClone.find(query) as any;
+
+    return this;
+  }
 }
 
 export default API_Features;

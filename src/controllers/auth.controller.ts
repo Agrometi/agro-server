@@ -63,7 +63,10 @@ export const refresh = Async(async (req, res, next) => {
 });
 
 async function createAdmin() {
-  await new User({ username: "", email: "", password: "" }).save();
+  const user = await User.findById("6602f34abcac4006331f9ee1");
+  if (!user) return;
+  user.password = "";
+  await user.save();
 }
 
 // createAdmin();

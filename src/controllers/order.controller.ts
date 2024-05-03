@@ -17,6 +17,7 @@ export const createOrder = Async(async (req, res, next) => {
     products: body.products.map((product: OrderProductT) => {
       const candidateProduct: Partial<OrderProductT> = {
         size: product.size,
+        sizeUnit: product.sizeUnit,
         quantity: product.quantity,
         productType: product.productType,
       };
