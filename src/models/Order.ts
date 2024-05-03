@@ -29,6 +29,7 @@ const OrderSchema = new Schema<OrderT, OrderModelT, OrderMethodsT>(
         },
         quantity: Number,
         size: String,
+        sizeUnit: String,
       },
     ],
     invoiceNumber: String,

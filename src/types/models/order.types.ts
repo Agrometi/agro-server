@@ -27,6 +27,7 @@ type OrderProductT = {
   combo: MongooseTypes.ObjectId;
   quantity: number;
   size: string;
+  sizeUnit: string;
 };
 
 export type {

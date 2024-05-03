@@ -17,13 +17,15 @@ import categoryRoutes from "./routes/category.routes";
 import comboRoutes from "./routes/combo.routes";
 import orderRoutes from "./routes/order.routes";
 import productRoutes from "./routes/product.routes";
+import blogRoutes from "./routes/blog.routes";
+import aboutUsRoutes from "./routes/aboutUs.routes";
 
 const App = express();
 
 App.set("view engine", "pug");
 App.set("views", path.join(__dirname, "/views"));
 
-App.use(express.json());
+App.use(express.json({ limit: "32mb" }));
 App.use(express.urlencoded({ extended: true, limit: "32mb" }));
 App.use(express.static(path.join(__dirname, "public")));
 
@@ -42,6 +44,8 @@ App.use("/api/v1/categories", categoryRoutes);
 App.use("/api/v1/combos", comboRoutes);
 App.use("/api/v1/orders", orderRoutes);
 App.use("/api/v1/products", productRoutes);
+App.use("/api/v1/blog", blogRoutes);
+App.use("/api/v1/about-us", aboutUsRoutes);
 
 App.get("/views", async (req, res, next) => {
   res.status(200).render("welcome", {
