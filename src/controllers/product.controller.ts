@@ -1,6 +1,6 @@
 import multer from "multer";
 
-import { Product, Category } from "../models";
+import { Product, Category, Combo } from "../models";
 import { Async, AppError, API_FeatureUtils, S3 } from "../lib";
 
 export const file_upload = multer({
@@ -68,6 +68,18 @@ export const updateProduct = Async(async (req, res, next) => {
 
   res.status(201).json("Product is Updated");
 });
+
+export const getCombosParticipatingWithProduct = Async(
+  async (req, res, next) => {
+    const { productId } = req.params;
+
+    const combos = await Combo.find({ "products.product": productId }).select(
+      "title"
+    );
+
+    res.status(200).json(combos);
+  }
+);
 
 export const deleteProduct = Async(async (req, res, next) => {
   const { productId } = req.params;

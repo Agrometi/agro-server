@@ -81,6 +81,17 @@ export const updateCombo = Async(async (req, res, next) => {
   res.status(201).json("Combo is Updated");
 });
 
+export const removeProductFromCombos = Async(async (req, res, next) => {
+  const { productId } = req.params;
+
+  await Combo.updateMany(
+    { "products.product": productId },
+    { $pull: { products: { product: productId } } }
+  );
+
+  res.status(204).json("Product is removed from combos");
+});
+
 export const deleteCombo = Async(async (req, res, next) => {
   const { comboId } = req.params;
 
@@ -91,7 +102,7 @@ export const deleteCombo = Async(async (req, res, next) => {
   if (!combo) return next(new AppError(404, "Combo does not exists"));
 
   const comboProductsAssets = combo.products.flatMap(
-    (product) => (product.product as unknown as ProductT).assets
+    (product) => (product.product as unknown as ProductT)?.assets || []
   );
 
   const comboAssets = combo.assets;
@@ -107,12 +118,23 @@ export const deleteCombo = Async(async (req, res, next) => {
   res.status(204).json("combo is deleted");
 });
 
+export const deleteCombos = Async(async (req, res, next) => {
+  const { combos } = req.body;
+
+  await Combo.deleteMany({ _id: combos });
+
+  res.status(204).json("Combos are deleted");
+});
+
 export const getCombo = Async(async (req, res, next) => {
   const { comboId } = req.params;
 
   const combo = await Combo.findById(comboId)
     .select("-__v")
-    .populate({ path: "products.product", select: "title price assets sizes" });
+    .populate({
+      path: "products.product",
+      select: "title price assets sizes sizeUnit",
+    });
 
   if (!combo) return next(new AppError(404, "combo does not exists"));
 

@@ -51,8 +51,6 @@ export const getOrders = Async(async (req, res, next) => {
       },
     },
 
-    { $sort: { "_id.year": -1, "_id.month": -1 } },
-
     {
       $unset: [
         "orders.__v",
@@ -142,6 +140,8 @@ export const getOrders = Async(async (req, res, next) => {
         dateRange: { year: "$_id.year", month: "$_id.month" },
       },
     },
+
+    { $sort: { "dateRange.year": -1, "dateRange.month": -1 } },
   ]);
 
   res.status(200).json(orders);
