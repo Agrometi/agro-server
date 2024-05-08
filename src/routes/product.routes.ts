@@ -26,6 +26,11 @@ Router.route("/:productId")
     productController.updateProduct
   );
 
+Router.route("/:productId/combos").get(
+  checkAuth,
+  productController.getCombosParticipatingWithProduct
+);
+
 Router.route("/:productId/:categoryId").get(
   productController.getRelatedProducts
 );

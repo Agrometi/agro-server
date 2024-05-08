@@ -8,10 +8,17 @@ Router.route("/")
   .post(checkAuth, comboController.file_upload, comboController.createCombo)
   .get(comboController.getCombos);
 
+Router.route("/remove").post(checkAuth, comboController.deleteCombos);
+
 Router.route("/:comboId")
   .post(checkAuth, comboController.createCombo)
   .put(checkAuth, comboController.file_upload, comboController.updateCombo)
   .delete(checkAuth, comboController.deleteCombo)
   .get(comboController.getCombo);
+
+Router.route("/:productId/remove").delete(
+  checkAuth,
+  comboController.removeProductFromCombos
+);
 
 export default Router;
