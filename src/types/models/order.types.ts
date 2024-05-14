@@ -23,11 +23,14 @@ type OrderModelT = Model<OrderT, {}, OrderMethodsT>;
 
 type OrderProductT = {
   productType: string;
-  product: MongooseTypes.ObjectId;
-  combo: MongooseTypes.ObjectId;
+  productId: string;
   quantity: number;
   size: string;
   sizeUnit: string;
+  title: string;
+  price: number;
+  thumbnail: string;
+  description: string;
 };
 
 export type {
