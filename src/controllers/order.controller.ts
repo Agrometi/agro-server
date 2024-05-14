@@ -16,15 +16,16 @@ export const createOrder = Async(async (req, res, next) => {
     invoiceNumber: `INV:${formatNumberWithLeadingZeros()}-${Date.now()}`,
     products: body.products.map((product: OrderProductT) => {
       const candidateProduct: Partial<OrderProductT> = {
+        productType: product.productType,
+        quantity: product.quantity,
         size: product.size,
         sizeUnit: product.sizeUnit,
-        quantity: product.quantity,
-        productType: product.productType,
+        title: product.title,
+        price: product.price,
+        thumbnail: product.thumbnail,
+        productId: product.productId,
+        description: product.description,
       };
-
-      if (product.productType === "COMBO")
-        candidateProduct.combo = product.combo;
-      else candidateProduct.product = product.product;
 
       return candidateProduct;
     }),
@@ -63,42 +64,6 @@ export const getOrders = Async(async (req, res, next) => {
     { $unwind: "$orders" },
 
     { $unwind: "$orders.products" },
-
-    {
-      $lookup: {
-        from: "products",
-        foreignField: "_id",
-        as: "orders.products.product",
-        localField: "orders.products.product",
-        pipeline: [{ $project: { title: 1, assets: 1, price: 1 } }],
-      },
-    },
-
-    {
-      $lookup: {
-        from: "combos",
-        foreignField: "_id",
-        as: "orders.products.combo",
-        localField: "orders.products.combo",
-        pipeline: [{ $project: { title: 1, assets: 1, price: 1 } }],
-      },
-    },
-
-    {
-      $addFields: {
-        "orders.products.product": {
-          $arrayElemAt: ["$orders.products.product", 0],
-        },
-      },
-    },
-
-    {
-      $addFields: {
-        "orders.products.combo": {
-          $arrayElemAt: ["$orders.products.combo", 0],
-        },
-      },
-    },
 
     {
       $group: {
@@ -150,13 +115,7 @@ export const getOrders = Async(async (req, res, next) => {
 export const getOrder = Async(async (req, res, next) => {
   const { orderId } = req.params;
 
-  const order = await Order.findById(orderId)
-    .select("-__v -updatedAt")
-    .populate({
-      path: "products.product",
-      select: "_id title price assets description",
-    })
-    .populate({ path: "products.combo", select: "_id title price assets" });
+  const order = await Order.findById(orderId).select("-__v -updatedAt");
 
   if (!order) return next(new AppError(404, "Order does not exists"));
 
