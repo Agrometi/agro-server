@@ -5,6 +5,7 @@ interface ComboT extends Document {
   description: string;
   price: number;
   assets: Array<string>;
+  updatedAt: string;
   products: Array<{
     product: MongooseTypes.ObjectId;
     size: {

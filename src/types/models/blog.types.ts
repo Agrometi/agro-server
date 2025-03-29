@@ -4,6 +4,7 @@ interface ArticleT extends Document {
   title: string;
   body: string;
   category: string;
+  updatedAt: string;
 }
 
 type ArticleMethodsT = {};

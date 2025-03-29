@@ -19,6 +19,7 @@ import orderRoutes from "./routes/order.routes";
 import productRoutes from "./routes/product.routes";
 import blogRoutes from "./routes/blog.routes";
 import aboutUsRoutes from "./routes/aboutUs.routes";
+import sitemapRoutes from "./routes/sitemap.routes";
 
 const App = express();
 
@@ -46,6 +47,7 @@ App.use("/api/v1/orders", orderRoutes);
 App.use("/api/v1/products", productRoutes);
 App.use("/api/v1/blog", blogRoutes);
 App.use("/api/v1/about-us", aboutUsRoutes);
+App.use("/api/v1/sitemap", sitemapRoutes);
 
 App.get("/views", async (req, res, next) => {
   res.status(200).render("welcome", {

@@ -8,6 +8,7 @@ interface ProductT extends Document {
   price: number;
   assets: Array<string>;
   category: MongooseTypes.ObjectId;
+  updatedAt: string;
 }
 
 type ProductMethodsT = {};
